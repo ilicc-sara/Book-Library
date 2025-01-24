@@ -9,7 +9,7 @@ body {
 }
 
 .container {
-  margin: 30vh auto;
+  margin: 10vh auto;
   width: 900px;
   text-align: center;
   background-color: pink;
@@ -38,26 +38,43 @@ body {
   gap: 40px;
   align-items: center;
   border-radius: 20px;
+  font-size: 25px;
+
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 10;
+  padding: 70px 50px;
+}
+
+input {
+  padding-left: 10px;
 }
 
 .input-box {
   display: grid;
   grid-template-columns: 1fr 1.5fr;
-  gap: 10px;
+  gap: 20px;
 }
 
 .submit-box {
   display: flex;
   gap: 15px;
   justify-content: start;
+  place-items: center;
 }
 
-.form {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: 10;
+.checkbox {
+  width: 20px;
+  height: 20px;
+}
+
+.submit-btn {
+  width: 150px;
+  font-size: 18px;
+  padding: 5px 15px;
+  border-radius: 10px;
 }
 
 .overlay {
@@ -73,4 +90,32 @@ body {
 
 .hidden {
   display: none;
+}
+
+.book-shelf {
+  margin: 0 auto;
+  width: 1200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  row-gap: 40px;
+}
+
+.card {
+  background-color: palevioletred;
+  width: 360px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  font-size: 20px;
+  padding: 40px 10px;
+  border-radius: 20px;
+}
+
+.status-btn,
+.delete-btn {
+  width: 150px;
+  font-size: 14px;
+  padding: 5px 15px;
+  border-radius: 10px;
 }
