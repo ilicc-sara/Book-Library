@@ -15,7 +15,27 @@
         Use the button below to add to your library and watch your collection
         grow
       </h3>
-      <button>New Book</button>
+      <button class="new-btn">New Book</button>
     </div>
+
+    <form class="form hidden">
+      <div class="input-box">
+        <p>Title of the book:</p>
+        <!-- prettier-ignore -->
+        <input type="text" id="name" name="name" placeholder="The Power Of Now" />
+        <p>Author:</p>
+        <input type="text" id="name" name="name" placeholder="Ekhart Tole" />
+        <p>Number of pages:</p>
+        <input type="text" id="name" name="name" placeholder="240" />
+      </div>
+
+      <div class="submit-box">
+        <input type="checkbox" />
+        <p>Have you read this book?</p>
+        <button>Submit</button>
+      </div>
+    </form>
+
+    <div class="overlay hidden"></div>
   </body>
 </html>
