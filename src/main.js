@@ -9,6 +9,7 @@ const authorInput = document.querySelector(".author-input");
 const pagesInput = document.querySelector(".pages-input");
 
 const bookCont = document.querySelector(".book-shelf");
+const checkBox = document.querySelector(".checkbox");
 
 newBookBtn.addEventListener("click", function () {
   form.classList.remove("hidden");
@@ -20,6 +21,7 @@ function cardCreator() {
   let author = "";
   let pages = "";
   const id = crypto.randomUUID();
+  let isRead = false;
 
   const getTitle = () => title;
   const setTtitle = (value) => (title = value);
@@ -32,17 +34,21 @@ function cardCreator() {
 
   const getId = () => id;
 
+  const getIsRead = () => isRead;
+  const changeStatus = (value) => (isRead = value);
+
   // prettier-ignore
-  return {getTitle, setTtitle, getAuthor, setAuthor, getPages, setPages, getId};
+  return {getTitle, setTtitle, getAuthor, setAuthor, getPages, setPages, getId, getIsRead, changeStatus};
 }
 
 function cardManagerCreator() {
-  const books = [];
+  let books = [];
 
   const addBooks = (value) => books.push(value);
   const getBooks = () => books;
+  const setBooks = (value) => (books = value);
 
-  return { addBooks, getBooks };
+  return { addBooks, getBooks, setBooks };
 }
 
 const cardManager = cardManagerCreator();
@@ -58,22 +64,50 @@ form.addEventListener("submit", function (e) {
   card.setPages(pagesInput.value);
   cardManager.addBooks(card);
 
-  cardManager.getBooks().forEach((book) => {
-    const item = document.createElement("div");
-    item.classList.add("card");
-    item.setAttribute("data-id", book.getId());
-    item.innerHTML = `
-    <p class="book-name">${book.getTitle()}</p>
-        <p class="book-author">${book.getAuthor()}</p>
-        <p class="book-pages"><span class="book-num">${book.getPages()}</span> pages</p>
-        <div class="btn-cont">
-          <button class="status-btn">Unread</button>
-          <button class="delete-btn">Delete Book</button>
-        </div>
-    `;
-    bookCont.appendChild(item);
-  });
-  // cardManager
-  //   .getBooks()
-  //   .forEach((book) => console.log(book.getTitle(), book.getId()));
+  const item = document.createElement("div");
+  item.classList.add("card");
+  item.setAttribute("data-id", card.getId());
+  item.innerHTML = `
+  <p class="book-name">${card.getTitle()}</p>
+  <p class="book-author">${card.getAuthor()}</p>
+  <p class="book-pages">${card.getPages()} pages</p>
+  <div class="btn-cont">
+  <button class="status-btn" id="${card.getId()}">Unread</button>
+  <button class="delete-btn">Delete Book</button>
+  </div>
+  `;
+  bookCont.appendChild(item);
+
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+});
+
+bookCont.addEventListener("click", function (e) {
+  // prettier-ignore
+  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn")) return;
+
+  const targetId = e.target.closest(".card").dataset.id;
+  const targetBook = cardManager
+    .getBooks()
+    .find((book) => book.getId() === targetId);
+
+  if (e.target.classList.contains("status-btn")) {
+    // prettier-ignore
+    !targetBook.getIsRead() ? targetBook.changeStatus(true) : targetBook.changeStatus(false);
+
+    const element = document.getElementById(targetId);
+
+    element.textContent = targetBook.getIsRead() ? "Read" : "Unread";
+  }
+  if (e.target.classList.contains("delete-btn")) {
+    const newBooks = cardManager.getBooks().filter((book) => {
+      return book.getId() !== targetId;
+    });
+
+    cardManager.setBooks(newBooks);
+
+    const deleteEl = e.target.closest(".card");
+    deleteEl.remove();
+  }
 });
