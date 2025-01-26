@@ -70,8 +70,8 @@ form.addEventListener("submit", function (e) {
   item.setAttribute("data-id", card.getId());
   item.innerHTML = `
 
-  <input type="text" class="text text-1" placeholder=${card.getTitle()} readonly />
-  <input type="text" class="text text-2" placeholder=${card.getAuthor()} readonly />
+  <input type="text" class="text text-1" placeholder="${card.getTitle()}" readonly />
+  <input type="text" class="text text-2" placeholder="${card.getAuthor()}" readonly />
   <input type="number" class="text text-3" placeholder="${card.getPages()} pages" readonly />
 
   <div class="btn-cont">
@@ -90,7 +90,7 @@ form.addEventListener("submit", function (e) {
   checkBox.checked = false;
 });
 
-const inputs = document.querySelectorAll(".text");
+// const inputs = document.querySelectorAll(".text");
 
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
@@ -119,9 +119,12 @@ bookCont.addEventListener("click", function (e) {
     const deleteEl = e.target.closest(".card");
     deleteEl.remove();
   }
+  if (e.target.classList.contains("edit-btn")) {
+    const targetCard = e.target.closest(".card");
+    const inputs = targetCard.querySelectorAll(".text");
+    const targetEdit = targetCard.querySelector(".edit-btn");
 
-  // if (e.target.classList.contains("edit-btn")) {
-  //   inputs.forEach((input) => input.removeAttribute("readonly"));
-  //   // inputs.removeAttribute("readonly");
-  // }
+    inputs.forEach((input) => input.removeAttribute("readonly"));
+    targetEdit.textContent = "Save";
+  }
 });

@@ -133,8 +133,9 @@ input {
   color: black;
 }
 
-.text:active {
+.text:focus {
   border: none;
+  outline: none;
 }
 
 .text-1 {
