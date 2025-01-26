@@ -63,16 +63,22 @@ form.addEventListener("submit", function (e) {
   card.setAuthor(authorInput.value);
   card.setPages(pagesInput.value);
   cardManager.addBooks(card);
+  checkBox.checked ? card.changeStatus(true) : card.changeStatus(false);
 
   const item = document.createElement("div");
   item.classList.add("card");
   item.setAttribute("data-id", card.getId());
   item.innerHTML = `
-  <p class="book-name">${card.getTitle()}</p>
-  <p class="book-author">${card.getAuthor()}</p>
-  <p class="book-pages">${card.getPages()} pages</p>
+
+  <input type="text" class="text text-1" placeholder=${card.getTitle()} readonly />
+  <input type="text" class="text text-2" placeholder=${card.getAuthor()} readonly />
+  <input type="number" class="text text-3" placeholder="${card.getPages()} pages" readonly />
+
   <div class="btn-cont">
-  <button class="status-btn" id="${card.getId()}">Unread</button>
+  <button class="status-btn" id="${card.getId()}">${
+    checkBox.checked ? "Read" : "Unread"
+  }</button>
+  <button class="edit-btn">Edit</button>
   <button class="delete-btn">Delete Book</button>
   </div>
   `;
@@ -81,11 +87,14 @@ form.addEventListener("submit", function (e) {
   titleInput.value = "";
   authorInput.value = "";
   pagesInput.value = "";
+  checkBox.checked = false;
 });
+
+const inputs = document.querySelectorAll(".text");
 
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn")) return;
+  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn")) return;
 
   const targetId = e.target.closest(".card").dataset.id;
   const targetBook = cardManager
@@ -110,4 +119,9 @@ bookCont.addEventListener("click", function (e) {
     const deleteEl = e.target.closest(".card");
     deleteEl.remove();
   }
+
+  // if (e.target.classList.contains("edit-btn")) {
+  //   inputs.forEach((input) => input.removeAttribute("readonly"));
+  //   // inputs.removeAttribute("readonly");
+  // }
 });

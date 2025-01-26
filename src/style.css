@@ -113,9 +113,41 @@ input {
 }
 
 .status-btn,
-.delete-btn {
-  width: 150px;
-  font-size: 14px;
+.delete-btn,
+.edit-btn {
+  width: 100px;
+  font-size: 12px;
   padding: 5px 15px;
   border-radius: 10px;
+}
+
+.text {
+  background: none;
+  text-align: center;
+  border: none;
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.text::placeholder {
+  color: black;
+}
+
+.text:active {
+  border: none;
+}
+
+.text-1 {
+  font-size: 20px;
+  font-weight: bold;
+}
+
+.text-2 {
+  font-size: 16px;
+  color: rgb(30, 30, 30);
+}
+
+.text-3 {
+  font-size: 14px;
+  color: rgb(34, 34, 34);
 }
