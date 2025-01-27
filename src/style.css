@@ -5,14 +5,18 @@
 }
 
 body {
-  background-color: rgb(53, 53, 130);
+  background-color: rgb(24, 24, 51);
+}
+
+button {
+  background-color: rgb(67, 13, 55);
 }
 
 .container {
   margin: 10vh auto;
   width: 900px;
   text-align: center;
-  background-color: pink;
+  background-color: rgb(43, 50, 58);
   position: relative;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -30,7 +34,7 @@ body {
 }
 
 .form {
-  background-color: green;
+  background-color: rgb(8, 74, 8);
   width: 700px;
   display: grid;
   grid-template-rows: 3fr 1fr;
@@ -97,11 +101,11 @@ input {
   width: 1200px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
-  row-gap: 40px;
+  row-gap: 20px;
 }
 
 .card {
-  background-color: palevioletred;
+  background-color: rgb(121, 54, 77);
   width: 360px;
   text-align: center;
   display: flex;
@@ -112,11 +116,27 @@ input {
   border-radius: 20px;
 }
 
+.info-cont {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  height: 80px;
+}
+
+.btn-cont {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-content: center;
+  place-items: center;
+  row-gap: 15px;
+}
+
 .status-btn,
 .delete-btn,
-.edit-btn {
-  width: 100px;
-  font-size: 12px;
+.edit-btn,
+.submit-btn {
+  width: 150px;
+  font-size: 16px;
   padding: 5px 15px;
   border-radius: 10px;
 }

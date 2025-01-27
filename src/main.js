@@ -16,10 +16,28 @@ newBookBtn.addEventListener("click", function () {
   overlay.classList.remove("hidden");
 });
 
-function cardCreator() {
-  let title = "";
-  let author = "";
-  let pages = "";
+let inputTitle;
+let inputAuthor;
+let inputPages;
+let isRead;
+
+titleInput.addEventListener("input", function (e) {
+  inputTitle = e.target.value;
+});
+authorInput.addEventListener("input", function (e) {
+  inputAuthor = e.target.value;
+});
+pagesInput.addEventListener("input", function (e) {
+  inputPages = e.target.value;
+});
+checkBox.addEventListener("input", function (e) {
+  isRead = e.target.checked;
+});
+
+function cardCreator(titl, ath, pgs) {
+  let title = titl; // arg1
+  let author = ath;
+  let pages = pgs;
   const id = crypto.randomUUID();
   let isRead = false;
 
@@ -54,15 +72,16 @@ function cardManagerCreator() {
 const cardManager = cardManagerCreator();
 
 form.addEventListener("submit", function (e) {
+  console.log(inputTitle, inputAuthor, inputPages, isRead);
   e.preventDefault();
   form.classList.add("hidden");
   overlay.classList.add("hidden");
 
-  const card = cardCreator();
-  card.setTtitle(titleInput.value);
-  card.setAuthor(authorInput.value);
-  card.setPages(pagesInput.value);
+  const card = cardCreator(inputTitle, inputAuthor, inputPages);
+  // necemo ovako da kupimo vrednosti nego varijable a nainput event listenere
+  // umesto pozivanja set fja proslediti arg u card creator
   cardManager.addBooks(card);
+  // isto kao i za komentare iznad napraviti var i napraviti listener na check box a zatim vrednost var prosledidi kao arg u card creator
   checkBox.checked ? card.changeStatus(true) : card.changeStatus(false);
 
   const item = document.createElement("div");
@@ -70,15 +89,17 @@ form.addEventListener("submit", function (e) {
   item.setAttribute("data-id", card.getId());
   item.innerHTML = `
 
-  <input type="text" class="text text-1" placeholder="${card.getTitle()}" readonly />
-  <input type="text" class="text text-2" placeholder="${card.getAuthor()}" readonly />
-  <input type="number" class="text text-3" placeholder="${card.getPages()} pages" readonly />
-
+  <div class="info-cont">
+          <p class="title">${card.getTitle()} </p>
+          <p class="author">${card.getAuthor()} </p>
+          <p class="pages">${card.getPages()} pages</p>
+  </div>
   <div class="btn-cont">
   <button class="status-btn" id="${card.getId()}">${
     checkBox.checked ? "Read" : "Unread"
   }</button>
   <button class="edit-btn">Edit</button>
+   <button class="submit-btn">Submit</button>
   <button class="delete-btn">Delete Book</button>
   </div>
   `;
@@ -119,12 +140,22 @@ bookCont.addEventListener("click", function (e) {
     const deleteEl = e.target.closest(".card");
     deleteEl.remove();
   }
-  if (e.target.classList.contains("edit-btn")) {
-    const targetCard = e.target.closest(".card");
-    const inputs = targetCard.querySelectorAll(".text");
-    const targetEdit = targetCard.querySelector(".edit-btn");
+  // if (e.target.classList.contains("edit-btn")) {
+  //   const targetCard = e.target.closest(".card");
+  //   const inputs = targetCard.querySelectorAll(".text");
+  //   const targetEdit = targetCard.querySelector(".edit-btn");
 
-    inputs.forEach((input) => input.removeAttribute("readonly"));
-    targetEdit.textContent = "Save";
-  }
+  //   inputs.forEach((input) => input.removeAttribute("readonly"));
+  //   targetEdit.textContent = "Save";
+
+  // za edit:
+  // dodati novo polje, novo parce stejta u card creator: isEditing: false
+  // kada se klikne na btn edit toj knjizi promeniti isEditing u true
+  // sada znas da je svim knjigama isEditing false osim kliknutoj
+  // samo za isEditing true knjizi prikazati formu sa  inputima a za ostale normalno, ne menjaju se
+  // samo za isEditing true knigu staviti submit event na formu
+  // na submit naci tu knjigu u arr knjiga
+  // promeniti isEditing na flase
+  // sada je opet svima isEditing false, prikazuju se bez inputa
+  // }
 });
