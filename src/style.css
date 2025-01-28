@@ -142,7 +142,7 @@ input {
 }
 
 .edit {
-  background: none;
+  /* background: none; */
   text-align: center;
   border: none;
   font-size: 18px;

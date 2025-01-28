@@ -4,9 +4,9 @@ const newBookBtn = document.querySelector(".new-btn");
 const form = document.querySelector(".form");
 const overlay = document.querySelector(".overlay");
 
-const titleInput = document.querySelector(".title-input");
-const authorInput = document.querySelector(".author-input");
-const pagesInput = document.querySelector(".pages-input");
+const titleInput = document.querySelector(".input-title");
+const authorInput = document.querySelector(".input-author");
+const pagesInput = document.querySelector(".input-pages");
 
 const bookCont = document.querySelector(".book-shelf");
 const checkBox = document.querySelector(".checkbox");
