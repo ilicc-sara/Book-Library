@@ -76,7 +76,7 @@ function cardManagerCreator() {
 const cardManager = cardManagerCreator();
 
 form.addEventListener("submit", function (e) {
-  console.log(inputTitle, inputAuthor, inputPages, isRead);
+  // console.log(inputTitle, inputAuthor, inputPages, isRead);
   e.preventDefault();
   form.classList.add("hidden");
   overlay.classList.add("hidden");
@@ -119,7 +119,7 @@ form.addEventListener("submit", function (e) {
 
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn")) return;
+  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("edit-btn")) return;
 
   const targetId = e.target.closest(".card").dataset.id;
   const targetBook = cardManager
@@ -159,8 +159,6 @@ bookCont.addEventListener("click", function (e) {
     // na submit naci tu knjigu u arr knjiga
     // promeniti isEditing na flase
     // sada je opet svima isEditing false, prikazuju se bez inputa
-
-    console.log("edit btn");
 
     bookCont.innerHTML = "";
 
