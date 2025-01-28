@@ -141,7 +141,7 @@ input {
   border-radius: 10px;
 }
 
-.text {
+.edit {
   background: none;
   text-align: center;
   border: none;
@@ -149,26 +149,26 @@ input {
   font-family: "Times New Roman", Times, serif;
 }
 
-.text::placeholder {
+.edit::placeholder {
   color: black;
 }
 
-.text:focus {
+.edit:focus {
   border: none;
   outline: none;
 }
 
-.text-1 {
+.title-input {
   font-size: 20px;
   font-weight: bold;
 }
 
-.text-2 {
+.author-input {
   font-size: 16px;
   color: rgb(30, 30, 30);
 }
 
-.text-3 {
+.pages-input {
   font-size: 14px;
   color: rgb(34, 34, 34);
 }
