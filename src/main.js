@@ -35,7 +35,7 @@ checkBox.addEventListener("input", function (e) {
 });
 
 function cardCreator(titl, athr, pgs, read) {
-  let title = titl; // arg1
+  let title = titl;
   let author = athr;
   let pages = pgs;
   const id = crypto.randomUUID();
@@ -76,7 +76,6 @@ function cardManagerCreator() {
 const cardManager = cardManagerCreator();
 
 form.addEventListener("submit", function (e) {
-  // console.log(inputTitle, inputAuthor, inputPages, isRead);
   e.preventDefault();
   form.classList.add("hidden");
   overlay.classList.add("hidden");
@@ -119,7 +118,7 @@ form.addEventListener("submit", function (e) {
 
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("edit-btn")) return;
+  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
   const targetId = e.target.closest(".card").dataset.id;
   const targetBook = cardManager
@@ -127,6 +126,7 @@ bookCont.addEventListener("click", function (e) {
     .find((book) => book.getId() === targetId);
 
   if (e.target.classList.contains("status-btn")) {
+    e.preventDefault();
     // prettier-ignore
     !targetBook.getIsRead() ? targetBook.changeStatus(true) : targetBook.changeStatus(false);
 
@@ -135,6 +135,7 @@ bookCont.addEventListener("click", function (e) {
     element.textContent = targetBook.getIsRead() ? "Read" : "Unread";
   }
   if (e.target.classList.contains("delete-btn")) {
+    e.preventDefault();
     const newBooks = cardManager.getBooks().filter((book) => {
       return book.getId() !== targetId;
     });
@@ -145,11 +146,7 @@ bookCont.addEventListener("click", function (e) {
     deleteEl.remove();
   }
   if (e.target.classList.contains("edit-btn")) {
-    //   const targetCard = e.target.closest(".card");
-    //   const inputs = targetCard.querySelectorAll(".text");
-    //   const targetEdit = targetCard.querySelector(".edit-btn");
-    //   inputs.forEach((input) => input.removeAttribute("readonly"));
-    //   targetEdit.textContent = "Save";
+    e.preventDefault();
     // za edit:
     // dodati novo polje, novo parce stejta u card creator: isEditing: false
     // kada se klikne na btn edit toj knjizi promeniti isEditing u true
@@ -200,6 +197,41 @@ bookCont.addEventListener("click", function (e) {
           <input type="text" class="edit title-input"  />
           <input type="text" class="edit author-input"  />
           <input type="text" class="edit pages-input"  />
+  </div>
+  <div class="btn-cont">
+  <button class="status-btn" id="${book.getId()}">${
+          book.getIsRead() ? "Read" : "Unread"
+        }</button>
+  <button class="edit-btn">Edit</button>
+   <button class="submit-btn">Submit</button>
+  <button class="delete-btn">Delete Book</button>
+  </div>
+  `;
+        bookCont.appendChild(item);
+      }
+    });
+  }
+
+  if (e.target.classList.contains("submit-btn")) {
+    e.preventDefault();
+    if (!targetBook.getIsEditing()) return;
+    if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
+
+    bookCont.innerHTML = "";
+
+    cardManager.getBooks().forEach((book) => {
+      book.getIsRead() ? book.changeStatus(true) : book.changeStatus(false);
+
+      if (!book.getIsEditing()) {
+        const item = document.createElement("div");
+        item.classList.add("card");
+        item.setAttribute("data-id", book.getId());
+        item.innerHTML = `
+
+  <div class="info-cont">
+          <p class="title">${book.getTitle()} </p>
+          <p class="author">${book.getAuthor()} </p>
+          <p class="pages">${book.getPages()} pages</p>
   </div>
   <div class="btn-cont">
   <button class="status-btn" id="${book.getId()}">${
