@@ -217,6 +217,17 @@ bookCont.addEventListener("click", function (e) {
     if (!targetBook.getIsEditing()) return;
     if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
 
+    // prettier-ignore
+    let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
+    // prettier-ignore
+    let editedAuthor = e.target.closest(".card").querySelector(".author-input").value;
+    // prettier-ignore
+    let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
+
+    targetBook.setTtitle(editedTitle);
+    targetBook.setAuthor(editedAuthor);
+    targetBook.setPages(editedPages);
+
     bookCont.innerHTML = "";
 
     cardManager.getBooks().forEach((book) => {
