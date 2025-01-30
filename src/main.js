@@ -19,7 +19,7 @@ newBookBtn.addEventListener("click", function () {
 let inputTitle;
 let inputAuthor;
 let inputPages;
-let isRead;
+let isRead = false;
 
 titleInput.addEventListener("input", function (e) {
   inputTitle = e.target.value;
@@ -80,12 +80,15 @@ form.addEventListener("submit", function (e) {
   form.classList.add("hidden");
   overlay.classList.add("hidden");
 
+  console.log("isRead submit", isRead);
+  console.log("check box", checkBox.checked);
+
   const card = cardCreator(inputTitle, inputAuthor, inputPages, isRead);
   // necemo ovako da kupimo vrednosti nego varijable a na input event listenere
   // umesto pozivanja set fja proslediti arg u card creator
   cardManager.addBooks(card);
 
-  card.getIsRead() ? card.changeStatus(true) : card.changeStatus(false);
+  // card.getIsRead() ? card.changeStatus(true) : card.changeStatus(false);
 
   const item = document.createElement("div");
   item.classList.add("card");
@@ -114,8 +117,6 @@ form.addEventListener("submit", function (e) {
   checkBox.checked = false;
 });
 
-// const inputs = document.querySelectorAll(".text");
-
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
   if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
@@ -128,10 +129,9 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("status-btn")) {
     e.preventDefault();
     // prettier-ignore
-    !targetBook.getIsRead() ? targetBook.changeStatus(true) : targetBook.changeStatus(false);
+    targetBook.getIsRead() ? targetBook.changeStatus(false) : targetBook.changeStatus(true);
 
     const element = document.getElementById(targetId);
-
     element.textContent = targetBook.getIsRead() ? "Read" : "Unread";
   }
   if (e.target.classList.contains("delete-btn")) {
@@ -139,7 +139,6 @@ bookCont.addEventListener("click", function (e) {
     const newBooks = cardManager.getBooks().filter((book) => {
       return book.getId() !== targetId;
     });
-
     cardManager.setBooks(newBooks);
 
     const deleteEl = e.target.closest(".card");
@@ -156,6 +155,9 @@ bookCont.addEventListener("click", function (e) {
     // na submit naci tu knjigu u arr knjiga
     // promeniti isEditing na flase
     // sada je opet svima isEditing false, prikazuju se bez inputa
+
+    // napraviti var const bookHtml
+    // book.getIsEditing ? forma : stara knjiga
 
     bookCont.innerHTML = "";
 
