@@ -16,6 +16,8 @@ newBookBtn.addEventListener("click", function () {
   overlay.classList.remove("hidden");
 });
 
+titleInput.content = "jao bre";
+
 let inputTitle;
 let inputAuthor;
 let inputPages;
@@ -143,77 +145,66 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    const bookHtml =
-      // napraviti var const bookHtml
-      // book.getIsEditing ? forma : stara knjiga
+    // napraviti var const bookHtml
+    // book.getIsEditing ? forma : stara knjiga
 
-      (bookCont.innerHTML = `
-
-  <div class="info-cont">
-          <p class="title">${book.getTitle()} </p>
-          <p class="author">${book.getAuthor()} </p>
-          <p class="pages">${book.getPages()} pages</p>
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-        book.getIsRead() ? "Read" : "Unread"
-      }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `);
+    bookCont.innerHTML = "";
 
     targetBook.setIsEditing(true);
 
     cardManager.getBooks().forEach((book) => {
       book.getIsRead() ? book.changeStatus(true) : book.changeStatus(false);
 
-      if (!book.getIsEditing()) {
-        const item = document.createElement("div");
-        item.classList.add("card");
-        item.setAttribute("data-id", book.getId());
-        item.innerHTML = `
+      const bookHtml = `
 
-  <div class="info-cont">
-          <p class="title">${book.getTitle()} </p>
-          <p class="author">${book.getAuthor()} </p>
-          <p class="pages">${book.getPages()} pages</p>
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-          book.getIsRead() ? "Read" : "Unread"
-        }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `;
-        bookCont.appendChild(item);
+      <div class="info-cont">
+              <p class="title">${book.getTitle()} </p>
+              <p class="author">${book.getAuthor()} </p>
+              <p class="pages">${book.getPages()} pages</p>
+      </div>
+      <div class="btn-cont">
+      <button class="status-btn" id="${book.getId()}">${
+        book.getIsRead() ? "Read" : "Unread"
+      }</button>
+      <button class="edit-btn">Edit</button>
+       <button class="submit-btn">Submit</button>
+      <button class="delete-btn">Delete Book</button>
+      </div>
+      `;
+
+      const bookHtmlForm = `
+
+      <div class="info-cont">
+              <input type="text" class="edit title-input"  />
+              <input type="text" class="edit author-input"  />
+              <input type="text" class="edit pages-input"  />
+      </div>
+      <div class="btn-cont">
+      <button class="status-btn" id="${book.getId()}">${
+        book.getIsRead() ? "Read" : "Unread"
+      }</button>
+      <button class="edit-btn">Edit</button>
+       <button class="submit-btn">Submit</button>
+      <button class="delete-btn">Delete Book</button>
+      </div>
+      `;
+
+      const item = document.createElement("div");
+      item.classList.add("card");
+      item.setAttribute("data-id", book.getId());
+
+      // !book.isEditing()
+      //   ? (item.innerHTML = bookHtml)
+      //   : (item.innerHTML = bookHtmlForm);
+
+      if (!book.getIsEditing()) {
+        item.innerHTML = bookHtml;
       }
 
       if (book.getIsEditing()) {
-        const item = document.createElement("form");
-        item.classList.add("card");
-        item.setAttribute("data-id", book.getId());
-        item.innerHTML = `
-
-  <div class="info-cont">
-          <input type="text" class="edit title-input"  />
-          <input type="text" class="edit author-input"  />
-          <input type="text" class="edit pages-input"  />
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-          book.getIsRead() ? "Read" : "Unread"
-        }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `;
-        bookCont.appendChild(item);
+        item.innerHTML = bookHtmlForm;
       }
+      bookCont.appendChild(item);
     });
   }
 
