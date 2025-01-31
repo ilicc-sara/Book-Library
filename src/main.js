@@ -84,11 +84,7 @@ form.addEventListener("submit", function (e) {
   console.log("check box", checkBox.checked);
 
   const card = cardCreator(inputTitle, inputAuthor, inputPages, isRead);
-  // necemo ovako da kupimo vrednosti nego varijable a na input event listenere
-  // umesto pozivanja set fja proslediti arg u card creator
   cardManager.addBooks(card);
-
-  // card.getIsRead() ? card.changeStatus(true) : card.changeStatus(false);
 
   const item = document.createElement("div");
   item.classList.add("card");
@@ -146,20 +142,27 @@ bookCont.addEventListener("click", function (e) {
   }
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
-    // za edit:
-    // dodati novo polje, novo parce stejta u card creator: isEditing: false
-    // kada se klikne na btn edit toj knjizi promeniti isEditing u true
-    // sada znas da je svim knjigama isEditing false osim kliknutoj
-    // samo za isEditing true knjizi prikazati formu sa  inputima a za ostale normalno, ne menjaju se
-    // samo za isEditing true knigu staviti submit event na formu
-    // na submit naci tu knjigu u arr knjiga
-    // promeniti isEditing na flase
-    // sada je opet svima isEditing false, prikazuju se bez inputa
 
-    // napraviti var const bookHtml
-    // book.getIsEditing ? forma : stara knjiga
+    const bookHtml =
+      // napraviti var const bookHtml
+      // book.getIsEditing ? forma : stara knjiga
 
-    bookCont.innerHTML = "";
+      (bookCont.innerHTML = `
+
+  <div class="info-cont">
+          <p class="title">${book.getTitle()} </p>
+          <p class="author">${book.getAuthor()} </p>
+          <p class="pages">${book.getPages()} pages</p>
+  </div>
+  <div class="btn-cont">
+  <button class="status-btn" id="${book.getId()}">${
+        book.getIsRead() ? "Read" : "Unread"
+      }</button>
+  <button class="edit-btn">Edit</button>
+   <button class="submit-btn">Submit</button>
+  <button class="delete-btn">Delete Book</button>
+  </div>
+  `);
 
     targetBook.setIsEditing(true);
 
