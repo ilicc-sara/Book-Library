@@ -225,6 +225,7 @@ bookCont.addEventListener("click", function (e) {
     if (!targetBook.getIsEditing()) return;
     if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
 
+    let targetCard = e.target.closest(".card");
     // prettier-ignore
     let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
     // prettier-ignore
@@ -232,9 +233,12 @@ bookCont.addEventListener("click", function (e) {
     // prettier-ignore
     let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
 
+    // targetCard.addEventListener("submit", function (e) {
+    // e.preventDefault();
     targetBook.setTtitle(editedTitle);
     targetBook.setAuthor(editedAuthor);
     targetBook.setPages(editedPages);
+    // });
 
     bookCont.innerHTML = "";
 
