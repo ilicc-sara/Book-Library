@@ -154,61 +154,59 @@ bookCont.addEventListener("click", function (e) {
       book.getIsRead() ? book.changeStatus(true) : book.changeStatus(false);
 
       /////////////////////////////////////////////////////////////////////////////////
-      // const bookHtml = `
+      const bookHtml = `
 
-      // <div class="info-cont">
-      //         <p class="title">${book.getTitle()} </p>
-      //         <p class="author">${book.getAuthor()} </p>
-      //         <p class="pages">${book.getPages()} pages</p>
-      // </div>
-      // <div class="btn-cont">
-      // <button class="status-btn" id="${book.getId()}">${
-      //   book.getIsRead() ? "Read" : "Unread"
-      // }</button>
-      // <button class="edit-btn">Edit</button>
-      //  <button class="submit-btn">Submit</button>
-      // <button class="delete-btn">Delete Book</button>
-      // </div>
-      // `;
+      <div class="info-cont">
+              <p class="title">${book.getTitle()} </p>
+              <p class="author">${book.getAuthor()} </p>
+              <p class="pages">${book.getPages()} pages</p>
+      </div>
+      <div class="btn-cont">
+      <button class="status-btn" id="${book.getId()}">${
+        book.getIsRead() ? "Read" : "Unread"
+      }</button>
+      <button class="edit-btn">Edit</button>
+       <button class="submit-btn">Submit</button>
+      <button class="delete-btn">Delete Book</button>
+      </div>
+      `;
 
-      // const bookHtmlForm = `
+      const bookHtmlForm = `
 
-      // <div class="info-cont">
-      //         <input type="text" class="edit title-input"  />
-      //         <input type="text" class="edit author-input"  />
-      //         <input type="text" class="edit pages-input"  />
-      // </div>
-      // <div class="btn-cont">
-      // <button class="status-btn" id="${book.getId()}">${
-      //   book.getIsRead() ? "Read" : "Unread"
-      // }</button>
-      // <button class="edit-btn">Edit</button>
-      //  <button class="submit-btn">Submit</button>
-      // <button class="delete-btn">Delete Book</button>
-      // </div>
-      // `;
-      /////////////////////////////////////////////////////////////////////////////////
+      <div class="info-cont">
+            <input type="text" class="edit title-input" value="${book.getTitle()}" />
+            <input type="text" class="edit author-input" value="${book.getAuthor()}" />
+            <input type="text" class="edit pages-input" value="${book.getPages()}" />
+      </div>
+      <div class="btn-cont">
+      <button class="status-btn" id="${book.getId()}">${
+        book.getIsRead() ? "Read" : "Unread"
+      }</button>
+      <button class="edit-btn">Edit</button>
+       <button class="submit-btn">Submit</button>
+      <button class="delete-btn">Delete Book</button>
+      </div>
+      `;
+      ///////////////////////////////////////////////////////////////////////////////
+      // let item;
+
+      // // prettier-ignore
+      // !book.isEditing() ? item = document.createElement("div") : item = document.createElement("form")
+      // item.classList.add("card");
+      // item.setAttribute("data-id", book.getId());
+
+      // // prettier-ignore
+      // !book.isEditing() ? item.innerHTML = bookHtml : item.innerHTML = bookHtmlForm;
+
+      // bookCont.appendChild(item);
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
       if (!book.getIsEditing()) {
         const item = document.createElement("div");
         item.classList.add("card");
         item.setAttribute("data-id", book.getId());
-        item.innerHTML = `
-
-  <div class="info-cont">
-          <p class="title">${book.getTitle()} </p>
-          <p class="author">${book.getAuthor()} </p>
-          <p class="pages">${book.getPages()} pages</p>
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-          book.getIsRead() ? "Read" : "Unread"
-        }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `;
+        item.innerHTML = bookHtml;
         bookCont.appendChild(item);
       }
 
@@ -216,22 +214,7 @@ bookCont.addEventListener("click", function (e) {
         const item = document.createElement("form");
         item.classList.add("card");
         item.setAttribute("data-id", book.getId());
-        item.innerHTML = `
-
-  <div class="info-cont">
-          <input type="text" class="edit title-input" value="${book.getTitle()}" />
-          <input type="text" class="edit author-input" value="${book.getAuthor()}" />
-          <input type="text" class="edit pages-input" value="${book.getPages()}" />
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-          book.getIsRead() ? "Read" : "Unread"
-        }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `;
+        item.innerHTML = bookHtmlForm;
         bookCont.appendChild(item);
       }
     });
