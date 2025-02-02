@@ -114,6 +114,7 @@ input {
   font-size: 20px;
   padding: 40px 10px;
   border-radius: 20px;
+  position: relative;
 }
 
 .info-cont {
@@ -124,21 +125,35 @@ input {
 }
 
 .btn-cont {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  display: flex;
   justify-content: center;
   place-items: center;
-  row-gap: 15px;
+  gap: 15px;
 }
 
 .status-btn,
-.delete-btn,
 .edit-btn,
 .submit-btn {
   width: 150px;
   font-size: 16px;
   padding: 5px 15px;
   border-radius: 10px;
+}
+
+.delete-btn {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  height: 30px;
+  width: 30px;
+  border-radius: 444px;
+  border: none;
+  background-color: rgb(120, 13, 13);
+}
+
+.delete-icon {
+  height: 30px;
+  width: 30px;
 }
 
 .edit {

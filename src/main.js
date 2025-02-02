@@ -101,8 +101,8 @@ form.addEventListener("submit", function (e) {
     card.getIsRead() ? "Read" : "Unread"
   }</button>
   <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
+   
+  <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
   </div>
   `;
   bookCont.appendChild(item);
@@ -113,9 +113,48 @@ form.addEventListener("submit", function (e) {
   checkBox.checked = false;
 });
 
+const renderBooks = function () {
+  cardManager.getBooks().forEach((book) => {
+    const bookHtml = book.getIsEditing()
+      ? `
+
+      <form class="card" data-id="${book.getId()}">
+    <div class="info-cont">
+          <input type="text" class="edit title-input" value="${book.getTitle()}" />
+          <input type="text" class="edit author-input" value="${book.getAuthor()}" />
+          <input type="text" class="edit pages-input" value="${book.getPages()}" />
+    </div>
+    <div class="btn-cont">
+   
+     <button type="submit" class="submit-btn">Submit</button>
+     <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+    
+    </div>
+    </form>
+    `
+      : `
+   <div class="card" data-id="${book.getId()}">
+    <div class="info-cont">
+            <p class="title">${book.getTitle()} </p>
+            <p class="author">${book.getAuthor()} </p>
+            <p class="pages">${book.getPages()} pages</p>
+    </div>
+    <div class="btn-cont">
+    <button class="status-btn" id="${book.getId()}">${
+          book.getIsRead() ? "Read" : "Unread"
+        }</button>
+    <button class="edit-btn">Edit</button>
+    <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+    </div>
+    </div>
+    `;
+    bookCont.insertAdjacentHTML("afterbegin", bookHtml);
+  });
+};
+
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
-  if (!e.target.classList.contains("status-btn") && !e.target.classList.contains("delete-btn") && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
+  if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
   const targetId = e.target.closest(".card").dataset.id;
   const targetBook = cardManager
@@ -130,7 +169,9 @@ bookCont.addEventListener("click", function (e) {
     const element = document.getElementById(targetId);
     element.textContent = targetBook.getIsRead() ? "Read" : "Unread";
   }
-  if (e.target.classList.contains("delete-btn")) {
+  // prettier-ignore
+  if (e.target.id === "delete") {
+    console.log(e.target.id);
     e.preventDefault();
     const newBooks = cardManager.getBooks().filter((book) => {
       return book.getId() !== targetId;
@@ -143,79 +184,13 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    // napraviti var const bookHtml
-    // book.getIsEditing ? forma : stara knjiga
-
     bookCont.innerHTML = "";
 
     targetBook.setIsEditing(true);
 
-    cardManager.getBooks().forEach((book) => {
-      const bookHtml = book.getIsEditing()
-        ? `
+    renderBooks();
 
-        <form class="card" data-id="${book.getId()}">
-      <div class="info-cont">
-            <input type="text" class="edit title-input" value="${book.getTitle()}" />
-            <input type="text" class="edit author-input" value="${book.getAuthor()}" />
-            <input type="text" class="edit pages-input" value="${book.getPages()}" />
-      </div>
-      <div class="btn-cont">
-     
-       <button type="submit" class="submit-btn">Submit</button>
-      
-      </div>
-      </form>
-      `
-        : `
-     <div class="card" data-id="${book.getId()}">
-      <div class="info-cont">
-              <p class="title">${book.getTitle()} </p>
-              <p class="author">${book.getAuthor()} </p>
-              <p class="pages">${book.getPages()} pages</p>
-      </div>
-      <div class="btn-cont">
-      <button class="status-btn" id="${book.getId()}">${
-            book.getIsRead() ? "Read" : "Unread"
-          }</button>
-      <button class="edit-btn">Edit</button>
-      <button class="delete-btn">Delete Book</button>
-      </div>
-      </div>
-      `;
-      bookCont.insertAdjacentHTML("afterbegin", bookHtml);
-
-      /////////////////////////////////////////////////////////////////////////////////
-
-      ///////////////////////////////////////////////////////////////////////////////
-      // let item;
-
-      // // prettier-ignore
-      // !book.isEditing() ? item = document.createElement("div") : item = document.createElement("form")
-      // item.classList.add("card");
-      // item.setAttribute("data-id", book.getId());
-
-      // // prettier-ignore
-      // !book.isEditing() ? item.innerHTML = bookHtml : item.innerHTML = bookHtmlForm;
-
-      //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-      // if (!book.getIsEditing()) {
-      //   const item = document.createElement("div");
-      //   item.classList.add("card");
-      //   item.setAttribute("data-id", book.getId());
-      //   item.innerHTML = bookHtml;
-      //   bookCont.appendChild(item);
-      // }
-
-      // if (book.getIsEditing()) {
-      //   const item = document.createElement("form");
-      //   item.classList.add("card");
-      //   item.setAttribute("data-id", book.getId());
-      //   item.innerHTML = bookHtmlForm;
-      //   bookCont.appendChild(item);
-      // }
-    });
+    let targetCard = e.target.closest(".card");
   }
 
   if (e.target.classList.contains("submit-btn")) {
@@ -223,7 +198,6 @@ bookCont.addEventListener("click", function (e) {
     if (!targetBook.getIsEditing()) return;
     if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
 
-    let targetCard = e.target.closest(".card");
     // prettier-ignore
     let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
     // prettier-ignore
@@ -240,31 +214,31 @@ bookCont.addEventListener("click", function (e) {
 
     bookCont.innerHTML = "";
 
-    cardManager.getBooks().forEach((book) => {
-      book.getIsRead() ? book.changeStatus(true) : book.changeStatus(false);
+    renderBooks();
 
-      if (!book.getIsEditing()) {
-        const item = document.createElement("div");
-        item.classList.add("card");
-        item.setAttribute("data-id", book.getId());
-        item.innerHTML = `
+    //   cardManager.getBooks().forEach((book) => {
+    //     if (!book.getIsEditing()) {
+    //       const item = document.createElement("div");
+    //       item.classList.add("card");
+    //       item.setAttribute("data-id", book.getId());
+    //       item.innerHTML = `
 
-  <div class="info-cont">
-          <p class="title">${book.getTitle()} </p>
-          <p class="author">${book.getAuthor()} </p>
-          <p class="pages">${book.getPages()} pages</p>
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${book.getId()}">${
-          book.getIsRead() ? "Read" : "Unread"
-        }</button>
-  <button class="edit-btn">Edit</button>
-   <button class="submit-btn">Submit</button>
-  <button class="delete-btn">Delete Book</button>
-  </div>
-  `;
-        bookCont.appendChild(item);
-      }
-    });
+    // <div class="info-cont">
+    //         <p class="title">${book.getTitle()} </p>
+    //         <p class="author">${book.getAuthor()} </p>
+    //         <p class="pages">${book.getPages()} pages</p>
+    // </div>
+    // <div class="btn-cont">
+    // <button class="status-btn" id="${book.getId()}">${
+    //         book.getIsRead() ? "Read" : "Unread"
+    //       }</button>
+    // <button class="edit-btn">Edit</button>
+    //  <button class="submit-btn">Submit</button>
+    // <button class="delete-btn">Delete Book</button>
+    // </div>
+    // `;
+    //       bookCont.appendChild(item);
+    //     }
+    //   });
   }
 });
