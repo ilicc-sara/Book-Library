@@ -149,6 +149,7 @@ input {
   border-radius: 444px;
   border: none;
   background-color: rgb(120, 13, 13);
+  background: none;
 }
 
 .delete-icon {

@@ -169,9 +169,8 @@ bookCont.addEventListener("click", function (e) {
     const element = document.getElementById(targetId);
     element.textContent = targetBook.getIsRead() ? "Read" : "Unread";
   }
-  // prettier-ignore
+
   if (e.target.id === "delete") {
-    console.log(e.target.id);
     e.preventDefault();
     const newBooks = cardManager.getBooks().filter((book) => {
       return book.getId() !== targetId;
@@ -181,6 +180,7 @@ bookCont.addEventListener("click", function (e) {
     const deleteEl = e.target.closest(".card");
     deleteEl.remove();
   }
+
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
@@ -205,40 +205,12 @@ bookCont.addEventListener("click", function (e) {
     // prettier-ignore
     let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
 
-    // targetCard.addEventListener("submit", function (e) {
-    // e.preventDefault();
     targetBook.setTtitle(editedTitle);
     targetBook.setAuthor(editedAuthor);
     targetBook.setPages(editedPages);
-    // });
 
     bookCont.innerHTML = "";
 
     renderBooks();
-
-    //   cardManager.getBooks().forEach((book) => {
-    //     if (!book.getIsEditing()) {
-    //       const item = document.createElement("div");
-    //       item.classList.add("card");
-    //       item.setAttribute("data-id", book.getId());
-    //       item.innerHTML = `
-
-    // <div class="info-cont">
-    //         <p class="title">${book.getTitle()} </p>
-    //         <p class="author">${book.getAuthor()} </p>
-    //         <p class="pages">${book.getPages()} pages</p>
-    // </div>
-    // <div class="btn-cont">
-    // <button class="status-btn" id="${book.getId()}">${
-    //         book.getIsRead() ? "Read" : "Unread"
-    //       }</button>
-    // <button class="edit-btn">Edit</button>
-    //  <button class="submit-btn">Submit</button>
-    // <button class="delete-btn">Delete Book</button>
-    // </div>
-    // `;
-    //       bookCont.appendChild(item);
-    //     }
-    //   });
   }
 });
