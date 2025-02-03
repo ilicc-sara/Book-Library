@@ -5,18 +5,21 @@
 }
 
 body {
-  background-color: rgb(24, 24, 51);
+  /* background-color: rgb(24, 24, 51); */
+  background: linear-gradient(#ffffff, #505ce2);
 }
 
 button {
-  background-color: rgb(67, 13, 55);
+  background-color: #242962;
+  color: white;
+  border: 2px solid #ffffff;
 }
 
 .container {
-  margin: 10vh auto;
+  margin: 300px auto;
   width: 900px;
   text-align: center;
-  background-color: rgb(43, 50, 58);
+  /* background-color: rgb(43, 50, 58); */
   position: relative;
   display: grid;
   grid-template-rows: 1fr 1fr 1fr;
@@ -34,7 +37,8 @@ button {
 }
 
 .form {
-  background-color: rgb(8, 74, 8);
+  background-color: #242962;
+  border: 2px solid #ffffff;
   width: 700px;
   display: grid;
   grid-template-rows: 3fr 1fr;
@@ -105,7 +109,8 @@ input {
 }
 
 .card {
-  background-color: rgb(121, 54, 77);
+  background-color: #242962;
+  color: white;
   width: 360px;
   text-align: center;
   display: flex;
