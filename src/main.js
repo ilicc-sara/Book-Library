@@ -191,6 +191,10 @@ bookCont.addEventListener("click", function (e) {
     renderBooks();
 
     let targetCard = e.target.closest(".card");
+
+    targetCard.addEventListener("submit", function (e) {
+      e.preventDefault();
+    });
   }
 
   if (e.target.classList.contains("submit-btn")) {
