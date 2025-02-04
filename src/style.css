@@ -4,9 +4,14 @@
   box-sizing: border-box;
 }
 
+/* html {
+  background: linear-gradient(to bottom, #ffffff, #505ce2);
+} */
+
 body {
   /* background-color: rgb(24, 24, 51); */
-  background: linear-gradient(#ffffff, #505ce2);
+  background: linear-gradient(to bottom, #ffffff, #505ce2);
+  padding-bottom: 100px;
 }
 
 button {
@@ -15,8 +20,13 @@ button {
   border: 2px solid #ffffff;
 }
 
+button:hover {
+  transform: scale(1.1);
+  transition: all 0.4;
+}
+
 .container {
-  margin: 300px auto;
+  margin: 250px auto;
   width: 900px;
   text-align: center;
   /* background-color: rgb(43, 50, 58); */

@@ -149,6 +149,23 @@ const renderBooks = function () {
     </div>
     `;
     bookCont.insertAdjacentHTML("afterbegin", bookHtml);
+
+    if (book.getIsEditing()) {
+      const form = document.querySelector(`[data-id="${book.getId()}"]`);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        book.setIsEditing(false);
+
+        let editedTitle = form.querySelector(".title-input").value;
+        let editedAuthor = form.querySelector(".author-input").value;
+        let editedPages = form.querySelector(".pages-input").value;
+
+        book.setTtitle(editedTitle);
+        book.setAuthor(editedAuthor);
+        book.setPages(editedPages);
+      });
+    }
   });
 };
 
@@ -156,7 +173,7 @@ bookCont.addEventListener("click", function (e) {
   // prettier-ignore
   if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
-  const targetId = e.target.closest(".card").dataset.id;
+  const targetId = e.target.closest(".card").getAttribute("data-id");
   const targetBook = cardManager
     .getBooks()
     .find((book) => book.getId() === targetId);
@@ -190,11 +207,8 @@ bookCont.addEventListener("click", function (e) {
 
     renderBooks();
 
-    let targetCard = e.target.closest(".card");
-
-    targetCard.addEventListener("submit", function (e) {
-      e.preventDefault();
-    });
+    let targetCard = e.target;
+    console.log(targetCard);
   }
 
   if (e.target.classList.contains("submit-btn")) {
