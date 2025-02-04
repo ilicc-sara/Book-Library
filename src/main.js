@@ -209,6 +209,18 @@ bookCont.addEventListener("click", function (e) {
 
     let targetCard = e.target;
     console.log(targetCard);
+
+    // kliknem na edit
+    // nadjem tu knjigu u arr i stavim is editing true
+    // nadhem tu knjigu na ekran i stavim da je to forma
+    // sada znam da postoji forma na ekranu, stavim joj event listener submit
+    // kada je forma submitana updatujem knjigu u arr , stavim is editing false
+    // maknem event listener sa forme
+    // zamenim formu da opet bude div ili list el
+    // ...
+    // ukoliko vec postoji neka otvorena forma a kniknem na edit neke druge knjige
+    // ta aktivna forma se zatvara a na mesto knjige na koju je kliknuto edit je forma
+    // cilj je da uvek moze biti samo jedna aktivna forma
   }
 
   if (e.target.classList.contains("submit-btn")) {
