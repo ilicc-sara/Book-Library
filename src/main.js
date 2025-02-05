@@ -201,15 +201,15 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
+    let targetCard = e.target.closest(".card");
+
+    // targetCard.innerHTML = "";
     // bookCont.innerHTML = "";
 
     targetBook.setIsEditing(true);
 
-    const targetCard = e.target.closest(".card");
-
     console.log(targetCard.dataset.id === targetBook.getId());
 
-    targetCard.innerHTML = "";
     targetCard.innerHTML = `
 
       <form class="card" data-id="${targetBook.getId()}">
