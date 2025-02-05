@@ -39,6 +39,11 @@ button:hover {
   border-radius: 20px;
 }
 
+h1 {
+  font-size: 45px;
+  color: #242962;
+}
+
 .new-btn {
   width: 200px;
   font-size: 18px;

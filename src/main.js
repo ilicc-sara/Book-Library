@@ -150,22 +150,22 @@ const renderBooks = function () {
     `;
     bookCont.insertAdjacentHTML("afterbegin", bookHtml);
 
-    if (book.getIsEditing()) {
-      const form = document.querySelector(`[data-id="${book.getId()}"]`);
-      form.addEventListener("submit", function (e) {
-        e.preventDefault();
+    // if (book.getIsEditing()) {
+    //   const form = document.querySelector(`[data-id="${book.getId()}"]`);
+    //   form.addEventListener("submit", function (e) {
+    //     e.preventDefault();
 
-        book.setIsEditing(false);
+    //     book.setIsEditing(false);
 
-        let editedTitle = form.querySelector(".title-input").value;
-        let editedAuthor = form.querySelector(".author-input").value;
-        let editedPages = form.querySelector(".pages-input").value;
+    //     let editedTitle = form.querySelector(".title-input").value;
+    //     let editedAuthor = form.querySelector(".author-input").value;
+    //     let editedPages = form.querySelector(".pages-input").value;
 
-        book.setTtitle(editedTitle);
-        book.setAuthor(editedAuthor);
-        book.setPages(editedPages);
-      });
-    }
+    //     book.setTtitle(editedTitle);
+    //     book.setAuthor(editedAuthor);
+    //     book.setPages(editedPages);
+    //   });
+    // }
   });
 };
 
@@ -201,14 +201,33 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    bookCont.innerHTML = "";
+    // bookCont.innerHTML = "";
 
     targetBook.setIsEditing(true);
 
-    renderBooks();
+    const targetCard = e.target.closest(".card");
 
-    let targetCard = e.target;
-    console.log(targetCard);
+    console.log(targetCard.dataset.id === targetBook.getId());
+
+    targetCard.innerHTML = "";
+    targetCard.innerHTML = `
+
+      <form class="card" data-id="${targetBook.getId()}">
+    <div class="info-cont">
+          <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
+          <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
+          <input type="text" class="edit pages-input" value="${targetBook.getPages()}" />
+    </div>
+    <div class="btn-cont">
+   
+     <button type="submit" class="submit-btn">Submit</button>
+     <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+    
+    </div>
+    </form>
+    `;
+
+    // renderBooks();
 
     // kliknem na edit
     // nadjem tu knjigu u arr i stavim is editing true
