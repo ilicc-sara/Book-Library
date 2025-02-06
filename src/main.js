@@ -80,9 +80,6 @@ form.addEventListener("submit", function (e) {
   form.classList.add("hidden");
   overlay.classList.add("hidden");
 
-  console.log("isRead submit", isRead);
-  console.log("check box", checkBox.checked);
-
   const card = cardCreator(inputTitle, inputAuthor, inputPages, isRead);
   cardManager.addBooks(card);
 
@@ -173,6 +170,11 @@ bookCont.addEventListener("click", function (e) {
   // prettier-ignore
   if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
+  const submitForm = function (e) {
+    e.preventDefault();
+  };
+  let targetCard = e.target.closest(".card");
+
   const targetId = e.target.closest(".card").getAttribute("data-id");
   const targetBook = cardManager
     .getBooks()
@@ -201,9 +203,7 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    let targetCard = e.target.closest(".card");
-
-    // targetCard.innerHTML = "";
+    targetCard.innerHTML = "";
     // bookCont.innerHTML = "";
 
     targetBook.setIsEditing(true);
@@ -212,7 +212,7 @@ bookCont.addEventListener("click", function (e) {
 
     targetCard.innerHTML = `
 
-      <form class="card" data-id="${targetBook.getId()}">
+      <form>
     <div class="info-cont">
           <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
           <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
@@ -226,6 +226,8 @@ bookCont.addEventListener("click", function (e) {
     </div>
     </form>
     `;
+
+    targetCard.addEventListener("submit", submitForm);
 
     // renderBooks();
 
@@ -244,8 +246,11 @@ bookCont.addEventListener("click", function (e) {
 
   if (e.target.classList.contains("submit-btn")) {
     e.preventDefault();
+
     if (!targetBook.getIsEditing()) return;
     if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
+
+    targetCard.removeEventListener("submit", submitForm);
 
     // prettier-ignore
     let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
