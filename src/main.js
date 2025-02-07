@@ -177,7 +177,23 @@ bookCont.addEventListener("click", function (e) {
 
   const submitForm = function (e) {
     e.preventDefault();
+
+    // const editForm = document.querySelector(".edit-form");
+    // console.log(editForm);
+    // console.log(this);
+
+    const titleValue = this.querySelector(".title-input").value;
+    const authorValue = this.querySelector(".author-input").value;
+    const pagesValue = this.querySelector(".pages-input").value;
+
+    targetBook.setTtitle(titleValue);
+    targetBook.setAuthor(authorValue);
+    targetBook.setPages(pagesValue);
+
+    console.log(titleValue);
+    this.removeEventListener("submit", submitForm);
   };
+
   let targetCard = e.target.closest(".card");
 
   if (e.target.classList.contains("status-btn")) {
@@ -208,7 +224,7 @@ bookCont.addEventListener("click", function (e) {
 
       targetCard.innerHTML = "";
       targetCard.innerHTML = `
-      <form>
+      <form class="edit-form">
       <div class="info-cont">
       <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
       <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
@@ -223,7 +239,8 @@ bookCont.addEventListener("click", function (e) {
       </form>
       `;
 
-      targetCard.addEventListener("submit", submitForm);
+      const form = targetCard.querySelector("form");
+      form.addEventListener("submit", submitForm);
     }
     // renderBooks();
 
@@ -238,29 +255,39 @@ bookCont.addEventListener("click", function (e) {
     // ukoliko vec postoji neka otvorena forma a kniknem na edit neke druge knjige
     // ta aktivna forma se zatvara a na mesto knjige na koju je kliknuto edit je forma
     // cilj je da uvek moze biti samo jedna aktivna forma
+    // ...
+    // na klik edit btn proveriti da li postoji neka forma kojoj je is editing true
+    // ako postoji znam da ima neka forma na ekranu i
+    // toj knjizi stavi is editing na false
+    // queri selectuj trenutno otvorenu formu
+    // sacuvati trenutnu vrednost inputa u knjigu kojoj ta forma odgovara
+    // makni event listener
+    // zatvori formu
+    // otvori formu prvobitno kliknute knjige
+    // stavi is editing na true
   }
 
-  if (e.target.classList.contains("submit-btn")) {
-    e.preventDefault();
+  // if (e.target.classList.contains("submit-btn")) {
+  //   e.preventDefault();
 
-    if (!targetBook.getIsEditing()) return;
-    if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
+  // if (!targetBook.getIsEditing()) return;
+  // if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
 
-    targetCard.removeEventListener("submit", submitForm);
+  // targetCard.removeEventListener("submit", submitForm);
 
-    // prettier-ignore
-    let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
-    // prettier-ignore
-    let editedAuthor = e.target.closest(".card").querySelector(".author-input").value;
-    // prettier-ignore
-    let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
+  // // prettier-ignore
+  // let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
+  // // prettier-ignore
+  // let editedAuthor = e.target.closest(".card").querySelector(".author-input").value;
+  // // prettier-ignore
+  // let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
 
-    targetBook.setTtitle(editedTitle);
-    targetBook.setAuthor(editedAuthor);
-    targetBook.setPages(editedPages);
+  // targetBook.setTtitle(editedTitle);
+  // targetBook.setAuthor(editedAuthor);
+  // targetBook.setPages(editedPages);
 
-    bookCont.innerHTML = "";
+  // bookCont.innerHTML = "";
 
-    renderBooks();
-  }
+  // renderBooks();
+  // }
 });

@@ -137,6 +137,11 @@ input {
   position: relative;
 }
 
+/* .card:hover {
+  transform: scale(1.1);
+  transition: all 0.9;
+} */
+
 .info-cont {
   display: flex;
   flex-direction: column;
