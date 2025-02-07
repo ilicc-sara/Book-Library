@@ -170,15 +170,15 @@ bookCont.addEventListener("click", function (e) {
   // prettier-ignore
   if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
-  const submitForm = function (e) {
-    e.preventDefault();
-  };
-  let targetCard = e.target.closest(".card");
-
   const targetId = e.target.closest(".card").getAttribute("data-id");
   const targetBook = cardManager
     .getBooks()
     .find((book) => book.getId() === targetId);
+
+  const submitForm = function (e) {
+    e.preventDefault();
+  };
+  let targetCard = e.target.closest(".card");
 
   if (e.target.classList.contains("status-btn")) {
     e.preventDefault();
@@ -203,32 +203,28 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    targetCard.innerHTML = "";
-    // bookCont.innerHTML = "";
+    if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
+      targetBook.setIsEditing(true);
 
-    targetBook.setIsEditing(true);
-
-    console.log(targetCard.dataset.id === targetBook.getId());
-
-    targetCard.innerHTML = `
-
+      targetCard.innerHTML = "";
+      targetCard.innerHTML = `
       <form>
-    <div class="info-cont">
-          <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
-          <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
-          <input type="text" class="edit pages-input" value="${targetBook.getPages()}" />
-    </div>
-    <div class="btn-cont">
-   
-     <button type="submit" class="submit-btn">Submit</button>
-     <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
-    
-    </div>
-    </form>
-    `;
+      <div class="info-cont">
+      <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
+      <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
+      <input type="text" class="edit pages-input" value="${targetBook.getPages()}" />
+      </div>
+      <div class="btn-cont">
+      
+      <button type="submit" class="submit-btn">Submit</button>
+      <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+      
+      </div>
+      </form>
+      `;
 
-    targetCard.addEventListener("submit", submitForm);
-
+      targetCard.addEventListener("submit", submitForm);
+    }
     // renderBooks();
 
     // kliknem na edit
