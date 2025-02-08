@@ -175,24 +175,24 @@ bookCont.addEventListener("click", function (e) {
     .getBooks()
     .find((book) => book.getId() === targetId);
 
-  const submitForm = function (e) {
-    e.preventDefault();
+  // const submitForm = function (e) {
+  //   e.preventDefault();
 
-    // const editForm = document.querySelector(".edit-form");
-    // console.log(editForm);
-    // console.log(this);
+  //   // const editForm = document.querySelector(".edit-form");
+  //   // console.log(editForm);
+  //   // console.log(this);
 
-    const titleValue = this.querySelector(".title-input").value;
-    const authorValue = this.querySelector(".author-input").value;
-    const pagesValue = this.querySelector(".pages-input").value;
+  //   const titleValue = this.querySelector(".title-input").value;
+  //   const authorValue = this.querySelector(".author-input").value;
+  //   const pagesValue = this.querySelector(".pages-input").value;
 
-    targetBook.setTtitle(titleValue);
-    targetBook.setAuthor(authorValue);
-    targetBook.setPages(pagesValue);
+  //   targetBook.setTtitle(titleValue);
+  //   targetBook.setAuthor(authorValue);
+  //   targetBook.setPages(pagesValue);
 
-    console.log(titleValue);
-    this.removeEventListener("submit", submitForm);
-  };
+  //   console.log(titleValue);
+  //   this.removeEventListener("submit", submitForm);
+  // };
 
   let targetCard = e.target.closest(".card");
 
