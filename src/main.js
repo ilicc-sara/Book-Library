@@ -171,7 +171,7 @@ bookCont.addEventListener("click", function (e) {
   if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
 
   const targetId = e.target.closest(".card").getAttribute("data-id");
-  const targetBook = cardManager
+  let targetBook = cardManager
     .getBooks()
     .find((book) => book.getId() === targetId);
 
@@ -235,11 +235,29 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    // if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
-    targetBook.setIsEditing(true);
+    console.log(targetBook.getId());
 
-    targetCard.innerHTML = "";
-    targetCard.innerHTML = `
+    if (cardManager.getBooks().some((book) => book.getIsEditing() === true)) {
+      // prettier-ignore
+      let editingBook = cardManager.getBooks().find((book) => book.getIsEditing() === true);
+
+      // prettier-ignore
+      let editingBookEl = bookCont.querySelector(`[data-id="${editingBook.getId()}"]`);
+      console.log(editingBookEl);
+      console.log(editingBook.getId() === editingBookEl.dataset.id);
+
+      // targetBook = editingBook;
+      // editingBookEl = targetCard;
+
+      const form = editingBookEl.querySelector("form");
+      form.addEventListener("submit", submitForm(e));
+    }
+
+    if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
+      targetBook.setIsEditing(true);
+
+      targetCard.innerHTML = "";
+      targetCard.innerHTML = `
       <form class="edit-form">
       <div class="info-cont">
       <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
@@ -255,9 +273,10 @@ bookCont.addEventListener("click", function (e) {
       </form>
       `;
 
-    const form = targetCard.querySelector("form");
-    form.addEventListener("submit", submitForm);
-    // }
+      const form = targetCard.querySelector("form");
+      form.addEventListener("submit", submitForm);
+    }
+
     // renderBooks();
 
     // kliknem na edit
