@@ -175,26 +175,46 @@ bookCont.addEventListener("click", function (e) {
     .getBooks()
     .find((book) => book.getId() === targetId);
 
-  // const submitForm = function (e) {
-  //   e.preventDefault();
-
-  //   // const editForm = document.querySelector(".edit-form");
-  //   // console.log(editForm);
-  //   // console.log(this);
-
-  //   const titleValue = this.querySelector(".title-input").value;
-  //   const authorValue = this.querySelector(".author-input").value;
-  //   const pagesValue = this.querySelector(".pages-input").value;
-
-  //   targetBook.setTtitle(titleValue);
-  //   targetBook.setAuthor(authorValue);
-  //   targetBook.setPages(pagesValue);
-
-  //   console.log(titleValue);
-  //   this.removeEventListener("submit", submitForm);
-  // };
-
   let targetCard = e.target.closest(".card");
+
+  const submitForm = function (e) {
+    e.preventDefault();
+
+    // const editForm = document.querySelector(".edit-form");
+    // console.log(editForm);
+    // console.log(this);
+
+    const titleValue = this.querySelector(".title-input").value;
+    const authorValue = this.querySelector(".author-input").value;
+    const pagesValue = this.querySelector(".pages-input").value;
+
+    targetBook.setTtitle(titleValue);
+    targetBook.setAuthor(authorValue);
+    targetBook.setPages(pagesValue);
+
+    console.log(titleValue);
+    console.log(authorValue);
+    console.log(pagesValue);
+
+    console.log(titleValue);
+    this.removeEventListener("submit", submitForm);
+
+    targetCard.innerHTML = `
+    <div class="info-cont">
+          <p class="title">${targetBook.getTitle()} </p>
+          <p class="author">${targetBook.getAuthor()} </p>
+          <p class="pages">${targetBook.getPages()} pages</p>
+  </div>
+  <div class="btn-cont">
+  <button class="status-btn" id="${targetBook.getId()}">${
+      targetBook.getIsRead() ? "Read" : "Unread"
+    }</button>
+  <button class="edit-btn">Edit</button>
+   
+  <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+  </div>
+    `;
+  };
 
   if (e.target.classList.contains("status-btn")) {
     e.preventDefault();
