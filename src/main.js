@@ -81,7 +81,7 @@ const renderBooks = function () {
     const bookHtml = book.getIsEditing()
       ? `
 
-      <form class="card" data-id="${book.getId()}">
+      <form class="card edit-form" data-id="${book.getId()}">
     <div class="info-cont">
           <input type="text" class="edit title-input" value="${book.getTitle()}" />
           <input type="text" class="edit author-input" value="${book.getAuthor()}" />
@@ -159,29 +159,30 @@ bookCont.addEventListener("click", function (e) {
 
   let targetCard = e.target.closest(".card");
 
-  const submitForm = function (e) {
+  const submitForm = function (e, book, form) {
     e.preventDefault();
+    console.log(this);
 
-    const titleValue = this.querySelector(".title-input").value;
-    const authorValue = this.querySelector(".author-input").value;
-    const pagesValue = this.querySelector(".pages-input").value;
+    const titleValue = form.querySelector(".title-input").value;
+    const authorValue = form.querySelector(".author-input").value;
+    const pagesValue = form.querySelector(".pages-input").value;
 
-    targetBook.setTtitle(titleValue);
-    targetBook.setAuthor(authorValue);
-    targetBook.setPages(pagesValue);
+    book.setTtitle(titleValue);
+    book.setAuthor(authorValue);
+    book.setPages(pagesValue);
 
-    targetBook.setIsEditing(false);
-    this.removeEventListener("submit", submitForm);
+    book.setIsEditing(false);
+    form.removeEventListener("submit", submitForm);
 
     targetCard.innerHTML = `
     <div class="info-cont">
-          <p class="title">${targetBook.getTitle()} </p>
-          <p class="author">${targetBook.getAuthor()} </p>
-          <p class="pages">${targetBook.getPages()} pages</p>
+          <p class="title">${book.getTitle()} </p>
+          <p class="author">${book.getAuthor()} </p>
+          <p class="pages">${book.getPages()} pages</p>
   </div>
   <div class="btn-cont">
-  <button class="status-btn" id="${targetBook.getId()}">${
-      targetBook.getIsRead() ? "Read" : "Unread"
+  <button class="status-btn" id="${book.getId()}">${
+      book.getIsRead() ? "Read" : "Unread"
     }</button>
   <button class="edit-btn">Edit</button>
    
@@ -213,22 +214,34 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    console.log(targetBook.getId());
+    // console.log(targetBook.getId());
 
     if (cardManager.getBooks().some((book) => book.getIsEditing() === true)) {
       // prettier-ignore
       let editingBook = cardManager.getBooks().find((book) => book.getIsEditing() === true);
+      console.log(editingBook);
 
       // prettier-ignore
       let editingBookEl = bookCont.querySelector(`[data-id="${editingBook.getId()}"]`);
-      console.log(editingBookEl);
-      console.log(editingBook.getId() === editingBookEl.dataset.id);
 
+      // const targetBook = e.target.closest(".card");
       // targetBook = editingBook;
       // editingBookEl = targetCard;
 
-      const form = editingBookEl.querySelector("form");
-      form.addEventListener("submit", submitForm);
+      editingBook.setIsEditing(false);
+
+      const form = bookCont.querySelector(".edit-form");
+      console.log("editing book el", editingBookEl);
+      form.addEventListener("submit", (e) => submitForm(e, editingBook, form));
+      const event = new Event("submit");
+      form.dispatchEvent(event);
+
+      targetBook.setIsEditing(true);
+      renderBooks();
+      console.log(form);
+      // console.log(editingBook, targetBook);
+      console.log("editing book", editingBook);
+      console.log("target book", targetBook);
     }
 
     if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
@@ -266,7 +279,9 @@ bookCont.addEventListener("click", function (e) {
       // </form>
 
       const form = targetCard.querySelector("form");
-      form.addEventListener("submit", submitForm);
+      form.addEventListener("submit", function (e) {
+        submitForm(e, targetBook, form);
+      });
     }
   }
 });
