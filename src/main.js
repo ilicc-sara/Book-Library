@@ -192,11 +192,7 @@ bookCont.addEventListener("click", function (e) {
     targetBook.setAuthor(authorValue);
     targetBook.setPages(pagesValue);
 
-    console.log(titleValue);
-    console.log(authorValue);
-    console.log(pagesValue);
-
-    console.log(titleValue);
+    targetBook.setIsEditing(false);
     this.removeEventListener("submit", submitForm);
 
     targetCard.innerHTML = `
@@ -239,11 +235,11 @@ bookCont.addEventListener("click", function (e) {
   if (e.target.classList.contains("edit-btn")) {
     e.preventDefault();
 
-    if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
-      targetBook.setIsEditing(true);
+    // if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
+    targetBook.setIsEditing(true);
 
-      targetCard.innerHTML = "";
-      targetCard.innerHTML = `
+    targetCard.innerHTML = "";
+    targetCard.innerHTML = `
       <form class="edit-form">
       <div class="info-cont">
       <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
@@ -259,9 +255,9 @@ bookCont.addEventListener("click", function (e) {
       </form>
       `;
 
-      const form = targetCard.querySelector("form");
-      form.addEventListener("submit", submitForm);
-    }
+    const form = targetCard.querySelector("form");
+    form.addEventListener("submit", submitForm);
+    // }
     // renderBooks();
 
     // kliknem na edit
