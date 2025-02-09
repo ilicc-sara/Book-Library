@@ -75,42 +75,8 @@ function cardManagerCreator() {
 
 const cardManager = cardManagerCreator();
 
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  form.classList.add("hidden");
-  overlay.classList.add("hidden");
-
-  const card = cardCreator(inputTitle, inputAuthor, inputPages, isRead);
-  cardManager.addBooks(card);
-
-  const item = document.createElement("div");
-  item.classList.add("card");
-  item.setAttribute("data-id", card.getId());
-  item.innerHTML = `
-
-  <div class="info-cont">
-          <p class="title">${card.getTitle()} </p>
-          <p class="author">${card.getAuthor()} </p>
-          <p class="pages">${card.getPages()} pages</p>
-  </div>
-  <div class="btn-cont">
-  <button class="status-btn" id="${card.getId()}">${
-    card.getIsRead() ? "Read" : "Unread"
-  }</button>
-  <button class="edit-btn">Edit</button>
-   
-  <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
-  </div>
-  `;
-  bookCont.appendChild(item);
-
-  titleInput.value = "";
-  authorInput.value = "";
-  pagesInput.value = "";
-  checkBox.checked = false;
-});
-
 const renderBooks = function () {
+  bookCont.innerHTML = "";
   cardManager.getBooks().forEach((book) => {
     const bookHtml = book.getIsEditing()
       ? `
@@ -166,6 +132,22 @@ const renderBooks = function () {
   });
 };
 
+form.addEventListener("submit", function (e) {
+  e.preventDefault();
+  form.classList.add("hidden");
+  overlay.classList.add("hidden");
+
+  const card = cardCreator(inputTitle, inputAuthor, inputPages, isRead);
+  cardManager.addBooks(card);
+
+  renderBooks();
+
+  titleInput.value = "";
+  authorInput.value = "";
+  pagesInput.value = "";
+  checkBox.checked = false;
+});
+
 bookCont.addEventListener("click", function (e) {
   // prettier-ignore
   if (!e.target.classList.contains("status-btn") && !e.target.id === "delete" && !e.target.classList.contains("edit-btn") && !e.target.classList.contains("submit-btn")) return;
@@ -179,10 +161,6 @@ bookCont.addEventListener("click", function (e) {
 
   const submitForm = function (e) {
     e.preventDefault();
-
-    // const editForm = document.querySelector(".edit-form");
-    // console.log(editForm);
-    // console.log(this);
 
     const titleValue = this.querySelector(".title-input").value;
     const authorValue = this.querySelector(".author-input").value;
@@ -250,7 +228,7 @@ bookCont.addEventListener("click", function (e) {
       // editingBookEl = targetCard;
 
       const form = editingBookEl.querySelector("form");
-      form.addEventListener("submit", submitForm(e));
+      form.addEventListener("submit", submitForm);
     }
 
     if (cardManager.getBooks().every((book) => book.getIsEditing() === false)) {
@@ -273,56 +251,72 @@ bookCont.addEventListener("click", function (e) {
       </form>
       `;
 
+      // <form class="card" data-id="${targetBook.getId()}">
+      // <div class="info-cont">
+      //       <input type="text" class="edit title-input" value="${targetBook.getTitle()}" />
+      //       <input type="text" class="edit author-input" value="${targetBook.getAuthor()}" />
+      //       <input type="text" class="edit pages-input" value="${targetBook.getPages()}" />
+      // </div>
+      // <div class="btn-cont">
+
+      //  <button type="submit" class="submit-btn">Submit</button>
+      //  <button id="delete" class="delete-btn"><ion-icon id="delete" class="delete-icon" name="close-circle-outline"></ion-icon></button>
+
+      // </div>
+      // </form>
+
       const form = targetCard.querySelector("form");
       form.addEventListener("submit", submitForm);
     }
-
-    // renderBooks();
-
-    // kliknem na edit
-    // nadjem tu knjigu u arr i stavim is editing true
-    // nadhem tu knjigu na ekran i stavim da je to forma
-    // sada znam da postoji forma na ekranu, stavim joj event listener submit
-    // kada je forma submitana updatujem knjigu u arr , stavim is editing false
-    // maknem event listener sa forme
-    // zamenim formu da opet bude div ili list el
-    // ...
-    // ukoliko vec postoji neka otvorena forma a kniknem na edit neke druge knjige
-    // ta aktivna forma se zatvara a na mesto knjige na koju je kliknuto edit je forma
-    // cilj je da uvek moze biti samo jedna aktivna forma
-    // ...
-    // na klik edit btn proveriti da li postoji neka forma kojoj je is editing true
-    // ako postoji znam da ima neka forma na ekranu i
-    // toj knjizi stavi is editing na false
-    // queri selectuj trenutno otvorenu formu
-    // sacuvati trenutnu vrednost inputa u knjigu kojoj ta forma odgovara
-    // makni event listener
-    // zatvori formu
-    // otvori formu prvobitno kliknute knjige
-    // stavi is editing na true
   }
-
-  // if (e.target.classList.contains("submit-btn")) {
-  //   e.preventDefault();
-
-  // if (!targetBook.getIsEditing()) return;
-  // if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
-
-  // targetCard.removeEventListener("submit", submitForm);
-
-  // // prettier-ignore
-  // let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
-  // // prettier-ignore
-  // let editedAuthor = e.target.closest(".card").querySelector(".author-input").value;
-  // // prettier-ignore
-  // let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
-
-  // targetBook.setTtitle(editedTitle);
-  // targetBook.setAuthor(editedAuthor);
-  // targetBook.setPages(editedPages);
-
-  // bookCont.innerHTML = "";
-
-  // renderBooks();
-  // }
 });
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+// if (e.target.classList.contains("submit-btn")) {
+//   e.preventDefault();
+
+// if (!targetBook.getIsEditing()) return;
+// if (targetBook.getIsEditing()) targetBook.setIsEditing(false);
+
+// targetCard.removeEventListener("submit", submitForm);
+
+// // prettier-ignore
+// let editedTitle = e.target.closest(".card").querySelector(".title-input").value;
+// // prettier-ignore
+// let editedAuthor = e.target.closest(".card").querySelector(".author-input").value;
+// // prettier-ignore
+// let editedPages = e.target.closest(".card").querySelector(".pages-input").value;
+
+// targetBook.setTtitle(editedTitle);
+// targetBook.setAuthor(editedAuthor);
+// targetBook.setPages(editedPages);
+
+// bookCont.innerHTML = "";
+
+// renderBooks();
+// }
+
+// renderBooks();
+
+// kliknem na edit
+// nadjem tu knjigu u arr i stavim is editing true
+// nadhem tu knjigu na ekran i stavim da je to forma
+// sada znam da postoji forma na ekranu, stavim joj event listener submit
+// kada je forma submitana updatujem knjigu u arr , stavim is editing false
+// maknem event listener sa forme
+// zamenim formu da opet bude div ili list el
+// ...
+// ukoliko vec postoji neka otvorena forma a kniknem na edit neke druge knjige
+// ta aktivna forma se zatvara a na mesto knjige na koju je kliknuto edit je forma
+// cilj je da uvek moze biti samo jedna aktivna forma
+// ...
+// na klik edit btn proveriti da li postoji neka forma kojoj je is editing true
+// ako postoji znam da ima neka forma na ekranu i
+// toj knjizi stavi is editing na false
+// queri selectuj trenutno otvorenu formu
+// sacuvati trenutnu vrednost inputa u knjigu kojoj ta forma odgovara
+// makni event listener
+// zatvori formu
+// otvori formu prvobitno kliknute knjige
+// stavi is editing na true
