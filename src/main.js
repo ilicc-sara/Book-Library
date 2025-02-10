@@ -113,22 +113,22 @@ const renderBooks = function () {
     `;
     bookCont.insertAdjacentHTML("afterbegin", bookHtml);
 
-    // if (book.getIsEditing()) {
-    //   const form = document.querySelector(`[data-id="${book.getId()}"]`);
-    //   form.addEventListener("submit", function (e) {
-    //     e.preventDefault();
+    if (book.getIsEditing()) {
+      const form = document.querySelector(`[data-id="${book.getId()}"]`);
+      form.addEventListener("submit", function (e) {
+        e.preventDefault();
 
-    //     book.setIsEditing(false);
+        book.setIsEditing(false);
 
-    //     let editedTitle = form.querySelector(".title-input").value;
-    //     let editedAuthor = form.querySelector(".author-input").value;
-    //     let editedPages = form.querySelector(".pages-input").value;
+        let editedTitle = form.querySelector(".title-input").value;
+        let editedAuthor = form.querySelector(".author-input").value;
+        let editedPages = form.querySelector(".pages-input").value;
 
-    //     book.setTtitle(editedTitle);
-    //     book.setAuthor(editedAuthor);
-    //     book.setPages(editedPages);
-    //   });
-    // }
+        book.setTtitle(editedTitle);
+        book.setAuthor(editedAuthor);
+        book.setPages(editedPages);
+      });
+    }
   });
 };
 
