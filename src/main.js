@@ -80,7 +80,6 @@ const renderBooks = function () {
   cardManager.getBooks().forEach((book) => {
     const bookHtml = book.getIsEditing()
       ? `
-
       <form class="card edit-form" data-id="${book.getId()}">
     <div class="info-cont">
           <input type="text" class="edit title-input" value="${book.getTitle()}" />
@@ -308,3 +307,24 @@ bookCont.addEventListener("click", function (e) {
 // zatvori formu
 // otvori formu prvobitno kliknute knjige
 // stavi is editing na true
+
+const book = cardCreator("1", "2", "3", false);
+
+const book2 = cardCreator("1", "2", "3", false);
+
+console.log(book);
+console.log(book2);
+
+const arr = [];
+console.log(arr);
+
+const arr2 = new Array();
+
+class Card {
+  constructor() {}
+  logValue() {
+    console.log("Sara");
+  }
+}
+const book3 = new Card();
+console.log(book3);
